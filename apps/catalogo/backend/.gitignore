@@ -1,0 +1,31 @@
+# Arquivo de variáveis de ambiente — NUNCA versionar
+.env
+
+# Ambiente virtual Python gerado pelo uv
+.venv/
+
+# Arquivos estáticos coletados pelo collectstatic
+staticfiles/
+
+# Cache do Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Cache do pytest
+.pytest_cache/
+
+# Cache do ruff
+.ruff_cache/
+
+# Arquivos de tipo gerados pelo mypy
+.mypy_cache/
+*.pyi
+
+# Arquivos de banco SQLite (caso use em desenvolvimento local)
+*.sqlite3
+
+# Diretório de build
+dist/
+build/
+*.egg-info/

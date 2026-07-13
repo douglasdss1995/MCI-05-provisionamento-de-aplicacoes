@@ -1,0 +1,44 @@
+[project]
+name = "catalogo-backend"
+version = "0.1.0"
+description = "Backend do Catálogo de Filmes — Curso Provisionamento de Aplicações FPFTech"
+requires-python = ">=3.12"
+dependencies = [
+    "django>=5.0",
+    "djangorestframework>=3.15",
+    "django-filter>=24.2",
+    "psycopg[binary]>=3.1",
+    "gunicorn>=22.0",
+    "pydantic-settings>=2.3",
+    "structlog>=24.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.2",
+    "pytest-django>=4.8",
+    "ruff>=0.4",
+    "django-stubs>=5.0",
+    "djangorestframework-stubs>=3.15",
+]
+
+# Configuração do ruff — linter e formatador Python
+[tool.ruff]
+line-length = 88
+target-version = "py312"
+
+[tool.ruff.lint]
+# E = erros de estilo, F = erros lógicos, I = ordenação de imports, N = convenções de nomenclatura
+select = ["E", "F", "I", "N", "W"]
+ignore = ["E501"]
+
+# Configuração do pytest
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "core.settings"
+python_files = ["test_*.py"]
+python_classes = ["Test*"]
+python_functions = ["test_*"]
+
+# Configuração do bump-my-version para controle de versão
+[tool.bumpversion]
+current_version = "0.1.0"
