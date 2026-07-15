@@ -14,11 +14,11 @@ from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
+from movies.exceptions import MovieNotFound
+from movies.models import Movie
 from movies.selectors import get_all_movies, get_movie_by_id
 from movies.serializers import MovieRatingSerializer, MovieSerializer
 from movies.services import create_movie, delete_movie, update_movie_rating
-from movies.exceptions import MovieNotFound
-from movies.models import Movie
 
 logger = structlog.get_logger(__name__)
 

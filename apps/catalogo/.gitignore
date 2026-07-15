@@ -1,0 +1,25 @@
+# Variáveis de ambiente — NUNCA versionar o .env real
+.env
+
+# Dependências do Node (frontend)
+node_modules/
+
+# Build do Angular
+dist/
+.angular/
+
+# Cache Python
+__pycache__/
+*.py[cod]
+.venv/
+staticfiles/
+.pytest_cache/
+.ruff_cache/
+
+# Logs
+*.log
+npm-debug.log*
+
+# Sistemas operacionais
+.DS_Store
+Thumbs.db

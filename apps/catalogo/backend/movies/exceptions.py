@@ -5,8 +5,8 @@ Centralizar as exceções aqui facilita o tratamento de erros nas views
 e torna o código mais legível — você sabe exatamente o que pode dar errado.
 """
 
-from rest_framework.exceptions import APIException
 from rest_framework import status
+from rest_framework.exceptions import APIException
 
 
 class MovieNotFound(APIException):
