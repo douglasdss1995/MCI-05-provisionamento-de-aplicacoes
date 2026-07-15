@@ -1,0 +1,46 @@
+# docker-compose.yml
+# Orquestra os tres servicos da aplicacao Lista de Tarefas:
+# banco de dados, backend Django e frontend Angular
+
+services:
+  db:
+    image: postgres:16
+    volumes:
+      - todo-db-data:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: todo
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_pass
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres_user -d todo"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  backend:
+    build: ./backend
+    command: sh -c "uv run python manage.py migrate && uv run gunicorn core.wsgi:application --bind 0.0.0.0:8000"
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      POSTGRES_DB: todo
+      POSTGRES_USER: postgres_user
+      POSTGRES_PASSWORD: postgres_pass
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      SECRET_KEY: your-secret-key-here
+      DEBUG: "True"
+      ALLOWED_HOSTS: localhost,127.0.0.1
+    ports:
+      - "8000:8000"
+
+  frontend:
+    build: ./frontend
+    depends_on:
+      - backend
+    ports:
+      - "4200:80"
+
+volumes:
+  todo-db-data:
