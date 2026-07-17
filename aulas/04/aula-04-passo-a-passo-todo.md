@@ -10,7 +10,7 @@ Confirme que os Dockerfiles do backend e do frontend da Aula 02 estão salvos em
 
 ## Parte 1 — Criando o docker-compose.yml
 
-Na raiz do projeto (`MCI-05-provisionamento-de-aplicacoes/`), crie o arquivo `docker-compose.yml`:
+Na da pasta `apps/todo/`, crie o arquivo `docker-compose.yml`:
 
 Antes de criar o `docker-compose.yml`, edite o `frontend/nginx.conf` da Aula 02. Ele
 aponta o `proxy_pass` para `todo-backend` — o nome que demos ao container na
