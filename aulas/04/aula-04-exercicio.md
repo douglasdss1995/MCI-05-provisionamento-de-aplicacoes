@@ -12,6 +12,10 @@ que o backend só suba depois que o banco estiver pronto.
 ## O que entregar
 
 - [ ] `docker-compose.yml` na raiz do projeto do Catálogo
+- [ ] Prints dos comandos:
+    - docker compose up -d
+    - docker compose ps
+- [ ] Print da aplicação funcionando
 
 ## Critério de aceite
 
