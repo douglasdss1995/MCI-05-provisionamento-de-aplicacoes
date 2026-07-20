@@ -1,0 +1,49 @@
+<!-- Barra de filtro e botão de novo cadastro -->
+<div class="filter-bar">
+  <!-- Campo de filtro por gênero -->
+  <input
+    type="text"
+    placeholder="Filtrar por gênero..."
+    [(ngModel)]="genreFilter"
+    (input)="loadMovies()"
+  />
+
+  <!-- Botão para mostrar/esconder o formulário de cadastro -->
+  <button class="btn btn-primary" (click)="showForm = !showForm">
+    {{ showForm ? 'Cancelar' : '+ Novo Filme' }}
+  </button>
+</div>
+
+<!-- Formulário de cadastro — visível apenas quando showForm é true -->
+@if (showForm) {
+  <app-movie-form (movieCreated)="onMovieCreated()" />
+}
+
+<!-- Mensagem de erro da API -->
+@if (errorMessage) {
+  <p class="error-message">{{ errorMessage }}</p>
+}
+
+<!-- Grid de cards dos filmes -->
+@if (movies.length > 0) {
+  <div class="movies-grid">
+    @for (movie of movies; track movie.id) {
+      <div class="movie-card">
+        <h3>{{ movie.title }}</h3>
+        <p class="genre">{{ movie.genre }}</p>
+        <p class="year">{{ movie.year }}</p>
+        <p class="rating">⭐ {{ movie.rating }}</p>
+
+        <!-- Botão de remoção -->
+        <button class="btn btn-danger" (click)="deleteMovie(movie)">
+          Remover
+        </button>
+      </div>
+    }
+  </div>
+} @else {
+  <!-- Exibido quando não há filmes cadastrados ou o filtro não encontrou resultados -->
+  <div class="empty-state">
+    <p>Nenhum filme encontrado.</p>
+  </div>
+}

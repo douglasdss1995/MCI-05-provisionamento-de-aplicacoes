@@ -1,0 +1,34 @@
+<!-- Formulário de nova tarefa -->
+<app-task-form (taskCreated)="onTaskCreated()" />
+
+<!-- Mensagem de erro -->
+@if (errorMessage) {
+  <p class="error-message">{{ errorMessage }}</p>
+}
+
+<!-- Lista de tarefas -->
+@if (tasks.length > 0) {
+  <ul class="task-list">
+    @for (task of tasks; track task.id) {
+      <li class="task-item" [class.done]="task.done">
+        <!-- Checkbox para marcar como concluída -->
+        <input
+          type="checkbox"
+          [checked]="task.done"
+          (change)="toggleDone(task)"
+        />
+        <!-- Título da tarefa -->
+        <span class="task-title">{{ task.title }}</span>
+
+        <!-- Botão de remoção -->
+        <button class="btn btn-danger" (click)="deleteTask(task)">
+          Remover
+        </button>
+      </li>
+    }
+  </ul>
+} @else {
+  <div class="empty-state">
+    <p>Nenhuma tarefa cadastrada. Adicione uma acima.</p>
+  </div>
+}

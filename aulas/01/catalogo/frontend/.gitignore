@@ -1,0 +1,14 @@
+# Dependências do Node — não versionar (regenerado com npm install)
+node_modules/
+
+# Arquivos compilados do Angular
+dist/
+
+# Cache do Angular CLI
+.angular/
+
+# Logs
+npm-debug.log*
+
+# Variáveis de ambiente locais
+.env

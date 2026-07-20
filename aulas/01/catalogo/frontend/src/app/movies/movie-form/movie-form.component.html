@@ -1,0 +1,77 @@
+<!-- Formulário de cadastro de filme -->
+<div class="form-card">
+  <h2>Cadastrar Filme</h2>
+
+  <!-- (ngSubmit) chama onSubmit() quando o formulário é enviado -->
+  <form (ngSubmit)="onSubmit()">
+
+    <!-- Campo: Título -->
+    <div class="form-group">
+      <label for="title">Título</label>
+      <input
+        id="title"
+        type="text"
+        [(ngModel)]="formData.title"
+        name="title"
+        placeholder="Ex: Inception"
+        required
+      />
+    </div>
+
+    <!-- Campo: Gênero -->
+    <div class="form-group">
+      <label for="genre">Gênero</label>
+      <input
+        id="genre"
+        type="text"
+        [(ngModel)]="formData.genre"
+        name="genre"
+        placeholder="Ex: Sci-Fi, Drama, Comédia"
+        required
+      />
+    </div>
+
+    <!-- Campo: Ano -->
+    <div class="form-group">
+      <label for="year">Ano</label>
+      <input
+        id="year"
+        type="number"
+        [(ngModel)]="formData.year"
+        name="year"
+        min="1888"
+        max="2100"
+        required
+      />
+    </div>
+
+    <!-- Campo: Nota -->
+    <div class="form-group">
+      <label for="rating">Nota (0.0 a 10.0)</label>
+      <input
+        id="rating"
+        type="number"
+        [(ngModel)]="formData.rating"
+        name="rating"
+        min="0"
+        max="10"
+        step="0.1"
+        required
+      />
+    </div>
+
+    <!-- Mensagem de erro -->
+    @if (errorMessage) {
+      <p class="error-message">{{ errorMessage }}</p>
+    }
+
+    <!-- Botão de envio — desabilitado durante o envio -->
+    <button
+      type="submit"
+      class="btn btn-primary"
+      [disabled]="isSubmitting"
+    >
+      {{ isSubmitting ? 'Cadastrando...' : 'Cadastrar' }}
+    </button>
+  </form>
+</div>
