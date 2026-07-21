@@ -19,7 +19,9 @@ RUN uv sync --frozen --no-dev
 # Agora copia o restante do codigo da aplicacao
 COPY . .
 
+COPY entrypoint.sh /app/entrypoint.sh
+RUN chmod +x /app/entrypoint.sh
+
 EXPOSE 8000
 
-# Comando executado quando o container inicia
-CMD ["uv", "run", "gunicorn", "core.wsgi:application", "--bind", "0.0.0.0:8000"]
+CMD ["/app/entrypoint.sh"]
