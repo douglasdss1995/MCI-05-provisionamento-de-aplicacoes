@@ -1,0 +1,23 @@
+<!-- Formulário de criação de tarefa — barra de input + botão -->
+<div class="form-card">
+  <form (ngSubmit)="onSubmit()" style="display: flex; gap: 12px; align-items: flex-start;">
+    <div class="form-group" style="flex: 1; margin-bottom: 0;">
+      <input
+        type="text"
+        [(ngModel)]="title"
+        name="title"
+        placeholder="Nova tarefa..."
+        required
+        style="width: 100%;"
+      />
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="isSubmitting || !title.trim()">
+      {{ isSubmitting ? 'Adicionando...' : 'Adicionar' }}
+    </button>
+  </form>
+
+  @if (errorMessage) {
+    <p class="error-message" style="margin-top: 8px;">{{ errorMessage }}</p>
+  }
+</div>

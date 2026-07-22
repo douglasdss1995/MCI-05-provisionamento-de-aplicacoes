@@ -1,0 +1,83 @@
+# .github/workflows/ci.yml
+# Pipeline de integracao continua: lint, testes e build da imagem Docker
+
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lint-and-test:
+    runs-on: ubuntu-latest
+
+    # Sobe um PostgreSQL temporario para os testes de integracao —
+    # sem isso, o pytest-django nao consegue criar o banco de teste
+    # e o job falha mesmo com o codigo correto
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_DB: catalogo
+          POSTGRES_USER: postgres_user
+          POSTGRES_PASSWORD: postgres_pass
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+
+    steps:
+      - name: Faz checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Instala o uv
+        uses: astral-sh/setup-uv@v3
+
+      - name: Instala as dependencias do backend
+        run: uv sync
+        working-directory: backend
+
+      - name: Verifica o estilo do codigo com ruff
+        run: uv run ruff check .
+        working-directory: backend
+
+      - name: Executa os testes automatizados
+        run: uv run pytest
+        working-directory: backend
+        env:
+          POSTGRES_DB: catalogo
+          POSTGRES_USER: postgres_user
+          POSTGRES_PASSWORD: postgres_pass
+          POSTGRES_HOST: localhost
+          POSTGRES_PORT: 5432
+          SECRET_KEY: chave-secreta-apenas-para-ci-nao-usar-em-producao
+          DEBUG: "True"
+          ALLOWED_HOSTS: "localhost,127.0.0.1"
+
+  build-and-push:
+    needs: lint-and-test
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    steps:
+      - name: Faz checkout do codigo
+        uses: actions/checkout@v4
+
+      - name: Autentica no GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Constroi e publica a imagem do backend
+        uses: docker/build-push-action@v6
+        with:
+          context: ./backend
+          push: true
+          tags: ghcr.io/${{ github.repository }}/catalogo-backend:latest
